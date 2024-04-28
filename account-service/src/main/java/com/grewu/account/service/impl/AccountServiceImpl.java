@@ -13,10 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,13 +29,6 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> NotFoundException.of(Account.class, id));
     }
 
-    @Override
-    public List<AccountResponse> getAll() {
-        log.info("SERVICE: ACCOUNT GET ALL");
-        return accountRepository.findAll().stream()
-                .map(mapper::toAccountResponse)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public Page<AccountResponse> getAll(Integer size, Integer page) {

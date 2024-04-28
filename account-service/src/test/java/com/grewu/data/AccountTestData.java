@@ -18,7 +18,7 @@ public class AccountTestData {
     @Builder.Default
     private String name = "name";
     @Builder.Default
-    private String email = "email";
+    private String email = "johndoe@example.com";
     @Builder.Default
     private String phoneNumber = "phoneNumber";
     @Builder.Default
@@ -29,7 +29,7 @@ public class AccountTestData {
     }
 
     public AccountResponse buildAccountResponse() {
-        return new AccountResponse(id, name, email, phoneNumber, creationDate);
+        return new AccountResponse(name, email, phoneNumber, creationDate);
     }
 
     public AccountRequest buildAccountRequest() {

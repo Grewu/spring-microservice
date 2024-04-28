@@ -1,0 +1,10 @@
+{
+  "content": [
+    {
+      "name": "name",
+      "email": "johndoe@example.com",
+      "phoneNumber": "phoneNumber",
+      "creationDate": "2024-10-04T03:02:00"
+    }
+  ]
+}

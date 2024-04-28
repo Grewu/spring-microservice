@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class AccountListener {
 
     @PrePersist
-    public void persist(Account account){
+    public void persist(Account account) {
         account.setCreationDate(LocalDateTime.now());
     }
 }

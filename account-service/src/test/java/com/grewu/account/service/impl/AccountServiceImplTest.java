@@ -35,6 +35,7 @@ class AccountServiceImplTest {
     @InjectMocks
     private AccountServiceImpl accountService;
 
+    private final String INVALID_ID = "Invalid id";
 
     @Test
     void getByIdShouldReturnExpectedAccountResponse() {
@@ -85,24 +86,9 @@ class AccountServiceImplTest {
                 .hasSameElementsAs(expected);
     }
 
-    @Test
-    void getAllShouldReturnListOfAccountResponse() {
-        //given
-        var expected = AccountTestData.builder().build().buildListOfAccountResponse();
-        var accountList = AccountTestData.builder().build().buildListOfAccount();
-        var account = AccountTestData.builder().build().buildAccount();
-        var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-        //when
-        when(accountRepository.findAll()).thenReturn(accountList);
-        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
-        var actual = accountService.getAll();
-        //then
-        assertThat(actual)
-                .hasSameElementsAs(expected);
-    }
 
     @Test
-    void create() {
+    void createShouldReturnAccountResponse() {
         //given
         var accountRequest = AccountTestData.builder().build().buildAccountRequest();
         var account = AccountTestData.builder().build().buildAccount();
@@ -127,14 +113,13 @@ class AccountServiceImplTest {
         var accountRequest = AccountTestData.builder().build().buildAccountRequest();
         var accountResponse = AccountTestData.builder().build().buildAccountResponse();
         var account = AccountTestData.builder().build().buildAccount();
-        AccountResponse expected = AccountTestData.builder().build().buildAccountResponse();
+        var expected = AccountTestData.builder().build().buildAccountResponse();
         //when
         when(accountRepository.save(account)).thenReturn(account);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
 
-        AccountResponse actual = accountService.update(accountRequest);
+        var actual = accountService.update(accountRequest);
         //then
-
         assertEquals(expected, actual);
     }
 
@@ -152,24 +137,21 @@ class AccountServiceImplTest {
     void deleteByIdShouldReturnIllegalArgumentException() {
         //given
         var fakeId = -1L;
-        String expected = "Invalid id";
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> accountService.deleteById(fakeId));
         String actual = exception.getMessage();
         //then
         assertThat(actual)
-                .contains(expected);
+                .contains(INVALID_ID);
     }
 
     @Test
     void deleteByIdShouldReturnIllegalArgumentExceptionWhenIdIsNull() {
-        //given
-        String expected = "Invalid id";
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> accountService.deleteById(null));
         String actual = exception.getMessage();
         //then
         assertThat(actual)
-                .contains(expected);
+                .contains(INVALID_ID);
     }
 }
