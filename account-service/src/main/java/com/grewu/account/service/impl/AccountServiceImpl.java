@@ -47,15 +47,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse update(AccountRequest accountRequest) {
-        Account account = Account.builder()
-                .setId(accountRequest.id())
-                .setName(accountRequest.name())
-                .setEmail(accountRequest.email())
-                .setPhoneNumber(accountRequest.phoneNumber())
-                .setCreationDate(accountRequest.creationDate())
-                .build();
-        Account updated = accountRepository.save(account);
-        return mapper.toAccountResponse(updated);
+       return accountRepository.findById(accountRequest.id())
+               .map(a -> mapper.merge(a,accountRequest))
+               .map(accountRepository::save)
+               .map(mapper::toAccountResponse)
+               .orElseThrow(() -> new NotFoundException("Object type of: by field: null not found."));
+
     }
 
     @Override

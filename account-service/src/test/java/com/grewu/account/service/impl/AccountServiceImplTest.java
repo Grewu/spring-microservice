@@ -1,8 +1,6 @@
 package com.grewu.account.service.impl;
 
 
-import com.grewu.account.data.response.AccountResponse;
-import com.grewu.account.entity.Account;
 import com.grewu.account.exception.NotFoundException;
 import com.grewu.account.mapper.AccountMapper;
 import com.grewu.account.repository.AccountRepository;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -40,13 +37,13 @@ class AccountServiceImplTest {
     @Test
     void getByIdShouldReturnExpectedAccountResponse() {
         //given
-        var id = 1L;
-        var account = AccountTestData.builder().build().buildAccount();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
+        final var id = 1L;
+        final var account = AccountTestData.builder().build().buildAccount();
+        final var expected = AccountTestData.builder().build().buildAccountResponse();
         when(accountRepository.findById(id)).thenReturn(Optional.of(account));
         when(mapper.toAccountResponse(account)).thenReturn(expected);
         //when
-        var actual = accountService.getById(id);
+        final var actual = accountService.getById(id);
 
         //then
         assertEquals(expected, actual);
@@ -56,31 +53,31 @@ class AccountServiceImplTest {
     @Test
     void getByIdShouldNotFoundException() {
         //given
-        var id = -1L;
-        String expected = "not found";
+        final var id = -1L;
+        final var EXPECTED_NOT_FOUND = "not found";
         //when
-        var exception = assertThrows(NotFoundException.class,
+        final var exception = assertThrows(NotFoundException.class,
                 () -> accountService.getById(id));
         String actual = exception.getMessage();
         //then
         assertThat(actual)
-                .contains(expected);
+                .contains(EXPECTED_NOT_FOUND);
     }
 
     @Test
     void getAllShouldReturnExpectedPageOfAccountResponse() {
         //given
-        var size = 15;
-        var page = 1;
-        Page<Account> accountPage = AccountTestData.builder().build().buildAccountPage();
-        Page<AccountResponse> expected = AccountTestData.builder().build().buildAccountResponsePage();
-        var account = AccountTestData.builder().build().buildAccount();
-        var accountResponse = AccountTestData.builder().build().buildAccountResponse();
+        final var size = 15;
+        final var page = 1;
+        final var accountPage = AccountTestData.builder().build().buildAccountPage();
+        final var expected = AccountTestData.builder().build().buildAccountResponsePage();
+        final var account = AccountTestData.builder().build().buildAccount();
+        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
 
         when(accountRepository.findAll(PageRequest.of(size, page))).thenReturn(accountPage);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
         //when
-        var actual = accountService.getAll(size, page);
+        final var actual = accountService.getAll(size, page);
         //then
         assertThat(actual)
                 .hasSameElementsAs(expected);
@@ -90,16 +87,15 @@ class AccountServiceImplTest {
     @Test
     void createShouldReturnAccountResponse() {
         //given
-        var accountRequest = AccountTestData.builder().build().buildAccountRequest();
-        var account = AccountTestData.builder().build().buildAccount();
-        var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
+        final var accountRequest = AccountTestData.builder().build().buildAccountRequest();
+        final var account = AccountTestData.builder().build().buildAccount();
+        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
+        final var expected = AccountTestData.builder().build().buildAccountResponse();
 
-        when(mapper.toAccount(accountRequest)).thenReturn(account);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
-
+        when(mapper.toAccount(accountRequest)).thenReturn(account);
         //when
-        var actual = accountService.create(accountRequest);
+        final var actual = accountService.create(accountRequest);
         //then
         verify(accountRepository).save(account);
 
@@ -110,11 +106,13 @@ class AccountServiceImplTest {
     @Test
     void updateShouldReturnAccountResponse() {
         //given
-        var accountRequest = AccountTestData.builder().build().buildAccountRequest();
-        var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-        var account = AccountTestData.builder().build().buildAccount();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
+        final var accountRequest = AccountTestData.builder().build().buildAccountRequest();
+        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
+        final var account = AccountTestData.builder().build().buildAccount();
+        final var expected = AccountTestData.builder().build().buildAccountResponse();
         //when
+        when(accountRepository.findById(accountRequest.id())).thenReturn(Optional.of(account));
+        when(mapper.merge(account, accountRequest)).thenReturn(account);
         when(accountRepository.save(account)).thenReturn(account);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
 
@@ -124,9 +122,25 @@ class AccountServiceImplTest {
     }
 
     @Test
+    void updateShouldThrowNotFoundException() {
+        //given
+        final var accountRequest = AccountTestData.builder()
+                .withId(null)
+                .build()
+                .buildAccountRequest();
+        //when
+        var exception = assertThrows(NotFoundException.class, () -> accountService.update(accountRequest));
+        var actual = exception.getMessage();
+        //then
+        final var NULL_NOT_FOUND = "Object type of: by field: null not found.";
+        assertThat(actual)
+                .contains(NULL_NOT_FOUND);
+    }
+
+    @Test
     void deleteById() {
         //given
-        var id = 1L;
+        final var id = 1L;
         //when
         accountService.deleteById(id);
         //then
@@ -136,10 +150,10 @@ class AccountServiceImplTest {
     @Test
     void deleteByIdShouldReturnIllegalArgumentException() {
         //given
-        var fakeId = -1L;
+        final var fakeId = -1L;
         //when
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> accountService.deleteById(fakeId));
-        String actual = exception.getMessage();
+        var exception = assertThrows(IllegalArgumentException.class, () -> accountService.deleteById(fakeId));
+        var actual = exception.getMessage();
         //then
         assertThat(actual)
                 .contains(INVALID_ID);

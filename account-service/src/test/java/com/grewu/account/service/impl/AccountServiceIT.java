@@ -43,7 +43,7 @@ class AccountServiceIT extends PostgresqlTestContainer {
     void getByIdShouldNotFoundException() {
         //given
         var id = -1L;
-        String expected = "not found";
+        final var expected = "not found";
         //when
         var exception = assertThrows(NotFoundException.class,
                 () -> service.getById(id));
@@ -103,7 +103,7 @@ class AccountServiceIT extends PostgresqlTestContainer {
     void deleteByIdShouldReturnIllegalArgumentException() {
         //given
         var fakeId = -1L;
-        String expected = "Invalid id";
+        final var expected = "Invalid id";
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> service.deleteById(fakeId));
         String actual = exception.getMessage();
@@ -115,7 +115,7 @@ class AccountServiceIT extends PostgresqlTestContainer {
     @Test
     void deleteByIdShouldReturnIllegalArgumentExceptionWhenIdIsNull() {
         //given
-        String expected = "Invalid id";
+        final var expected = "Invalid id";
         //when
         Exception exception = assertThrows(IllegalArgumentException.class, () -> service.deleteById(null));
         String actual = exception.getMessage();

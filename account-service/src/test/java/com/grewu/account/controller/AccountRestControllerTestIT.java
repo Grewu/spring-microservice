@@ -24,6 +24,7 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
     @Autowired
     private MockMvc mockMvc;
 
+
     private static final String URL = "/api";
     private static final String URL_WITH_PARAMETER_ID = URL + "/{id}";
 
@@ -53,11 +54,14 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
     @Test
     void getAllShouldReturnPageOfAccountResponse() throws Exception {
         //given
+        final String SIZE = "size";
+        final String PAGE = "page";
+
         var size = 0;
         var page = 1;
         var requestBuilder = get(URL)
-                .param("size", String.valueOf(size))
-                .param("page", String.valueOf(page));
+                .param(SIZE, String.valueOf(size))
+                .param(PAGE, String.valueOf(page));
         //when
         mockMvc.perform(requestBuilder)
                 //then
@@ -83,7 +87,7 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
     @Test
     void createShouldReturnAccountResponse() throws Exception {
         //given
-        String json = """
+        final String json = """
                 {
                   "id": 1,
                   "name": "name",
