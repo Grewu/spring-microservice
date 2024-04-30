@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 
 public record AccountRequest(
         @NotNull
-        Long id,
-        @NotNull
         @Size(min = 2, max = 40)
         String name,
         @Email

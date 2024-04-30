@@ -33,7 +33,7 @@ public class AccountTestData {
     }
 
     public AccountRequest buildAccountRequest() {
-        return new AccountRequest(id, name, email, phoneNumber, creationDate);
+        return new AccountRequest(name, email, phoneNumber, creationDate);
     }
 
     public List<AccountResponse> buildListOfAccountResponse() {
@@ -46,9 +46,5 @@ public class AccountTestData {
 
     public Page<Account> buildAccountPage() {
         return new PageImpl<>(buildListOfAccount());
-    }
-
-    public Page<AccountResponse> buildAccountResponsePage() {
-        return new PageImpl<>(buildListOfAccountResponse());
     }
 }

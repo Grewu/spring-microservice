@@ -8,3 +8,5 @@ spring:
     password: postgres
   liquibase:
     enabled: true
+server:
+  port: 8081

@@ -6,7 +6,6 @@ import com.grewu.account.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,13 +38,13 @@ public class AccountRestController {
     }
 
 
+    //TODO:Test
     @GetMapping
-    public ResponseEntity<Page<AccountResponse>> getAll(@RequestParam(required = false) Integer size,
+    public ResponseEntity<List<AccountResponse>> getAll(@RequestParam(required = false) Integer size,
                                                         @RequestParam(required = false) Integer page) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.getAll(size, page));
     }
-
 
     @PostMapping
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest) {
@@ -52,18 +52,16 @@ public class AccountRestController {
                 .body(service.create(accountRequest));
     }
 
-    @PutMapping
-    public ResponseEntity<AccountResponse> update(@RequestBody AccountRequest accountRequest) {
-        AccountResponse updatedAccount = service.update(accountRequest);
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountResponse> update(@PathVariable Long id, @RequestBody AccountRequest accountRequest) {
         return ResponseEntity.ok()
-                .location(URI.create("/accounts/" + accountRequest.id()))
-                .body(updatedAccount);
+                .location(URI.create("/accounts/" + id))
+                .body(service.update(id, accountRequest));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .build();
+        return ResponseEntity.ok().build();
     }
 }

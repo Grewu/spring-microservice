@@ -12,9 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
@@ -23,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     @Override
-    public AccountResponse getById(Long id) {
+    public AccountResponse getById( Long id) {
         log.info("SERVICE: ACCOUNT GET BY ID " + id);
         return accountRepository.findById(id).map(mapper::toAccountResponse)
                 .orElseThrow(() -> NotFoundException.of(Account.class, id));
@@ -31,10 +37,13 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Page<AccountResponse> getAll(Integer size, Integer page) {
+    public List<AccountResponse> getAll(Integer size, Integer page) {
         log.info("SERVICE: ACCOUNT PAGE GET ALL");
         return accountRepository.findAll(PageRequest.of(size, page))
-                .map(mapper::toAccountResponse);
+                .map(mapper::toAccountResponse)
+                .stream().collect(Collectors.toList());
+
+
     }
 
     @Override
@@ -46,8 +55,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponse update(AccountRequest accountRequest) {
-       return accountRepository.findById(accountRequest.id())
+    public AccountResponse update(@PathVariable("id") Long id, AccountRequest accountRequest) {
+       return accountRepository.findById(id)
                .map(a -> mapper.merge(a,accountRequest))
                .map(accountRepository::save)
                .map(mapper::toAccountResponse)

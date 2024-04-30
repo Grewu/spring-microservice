@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -55,10 +57,10 @@ class AccountServiceIT extends PostgresqlTestContainer {
 
 
     @Test
-    void getAllShouldReturnPageOfAccountResponse() {
+    void getAllShouldReturnListOfAccountResponse() {
         var size = 0;
         var page = 1;
-        Page<AccountResponse> expected = AccountTestData.builder().build().buildAccountResponsePage();
+        List<AccountResponse> expected = AccountTestData.builder().build().buildListOfAccountResponse();
         //when
         var actual = service.getAll(size, page);
         //then
@@ -83,8 +85,9 @@ class AccountServiceIT extends PostgresqlTestContainer {
         //given
         var accountRequest = AccountTestData.builder().build().buildAccountRequest();
         var expected = AccountTestData.builder().build().buildAccountResponse();
+        final var id = 1L;
         //when
-        var actual = service.update(accountRequest);
+        var actual = service.update(id,accountRequest);
         //then
         assertEquals(expected, actual);
     }

@@ -52,7 +52,7 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
     }
 
     @Test
-    void getAllShouldReturnPageOfAccountResponse() throws Exception {
+    void getAllShouldReturnListOfAccountResponse() throws Exception {
         //given
         final String SIZE = "size";
         final String PAGE = "page";
@@ -69,16 +69,14 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
                         content().json("""                             
-                                {
-                                    "content": [
-                                        {
-                                            "name": "name",
-                                            "email": "johndoe@example.com",
-                                            "phoneNumber": "phoneNumber",
-                                            "creationDate": "2024-10-04T03:02:00"
-                                        }
-                                    ]
-                                }              
+                                [
+                                    {
+                                     "name": "name",
+                                     "email": "johndoe@example.com",
+                                     "phoneNumber": "phoneNumber",
+                                     "creationDate": "2024-10-04T03:02:00"
+                                    }
+                                ]
                                  """)
                 );
     }
@@ -89,7 +87,6 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
         //given
         final String json = """
                 {
-                  "id": 1,
                   "name": "name",
                   "email": "johndoe@example.com",
                   "phoneNumber": "phoneNumber",
@@ -109,13 +106,12 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
 
     }
 
-
+    //TODO
     @Test
     void updateShouldReturnAccountResponse() throws Exception {
         //given
         String json = """
                 {
-                  "id": 1,
                   "name": "name",
                   "email": "johndoe@example.com",
                   "phoneNumber": "phoneNumber",
@@ -139,7 +135,7 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
         var accountId = 1L;
         //when
         mockMvc.perform(delete(URL_WITH_PARAMETER_ID, accountId))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
 }
