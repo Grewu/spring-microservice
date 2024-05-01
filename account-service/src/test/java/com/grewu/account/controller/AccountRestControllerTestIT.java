@@ -74,7 +74,7 @@ class AccountRestControllerTestIT extends PostgresqlTestContainer {
         var expected = AccountTestData.builder().build().buildListOfAccountResponse();
 
         doReturn(expected)
-                .when(service).getAll(size,page);
+                .when(service).getAll(size, page);
 
         //when
         mockMvc.perform(requestBuilder)

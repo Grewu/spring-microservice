@@ -4,3 +4,8 @@ spring:
       enabled: false
   profiles:
     active: dev
+springdoc:
+  api-docs:
+    enabled: true
+  show-actuator: true
+
