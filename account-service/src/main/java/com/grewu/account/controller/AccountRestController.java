@@ -38,23 +38,25 @@ public class AccountRestController {
     }
 
 
-    //TODO:Test
     @GetMapping
-    public ResponseEntity<List<AccountResponse>> getAll(@RequestParam(required = false) Integer size,
-                                                        @RequestParam(required = false) Integer page) {
+    public ResponseEntity<List<AccountResponse>> getAll(@RequestParam(required = false,defaultValue = "0") Integer size,
+                                                        @RequestParam(required = false,defaultValue = "1") Integer page) {
         return ResponseEntity.status(HttpStatus.OK)
+
                 .body(service.getAll(size, page));
     }
 
     @PostMapping
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody AccountRequest accountRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(service.create(accountRequest));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AccountResponse> update(@PathVariable Long id, @RequestBody AccountRequest accountRequest) {
         return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
                 .location(URI.create("/accounts/" + id))
                 .body(service.update(id, accountRequest));
     }
@@ -62,6 +64,7 @@ public class AccountRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .build();
     }
 }

@@ -106,19 +106,19 @@ class AccountServiceImplTest {
     @Test
     void updateShouldReturnAccountResponse() {
         //given
-//        final var accountRequest = AccountTestData.builder().build().buildAccountRequest();
-//        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-//        final var account = AccountTestData.builder().build().buildAccount();
-//        final var expected = AccountTestData.builder().build().buildAccountResponse();
-//        //when
-//        when(accountRepository.findById(accountRequest.id())).thenReturn(Optional.of(account));
-//        when(mapper.merge(account, accountRequest)).thenReturn(account);
-//        when(accountRepository.save(account)).thenReturn(account);
-//        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
-//
-//        var actual = accountService.update(accountRequest);
-//        //then
-//        assertEquals(expected, actual);
+        final var accountRequest = AccountTestData.builder().build().buildAccountRequest();
+        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
+        final var account = AccountTestData.builder().build().buildAccount();
+        final var expected = AccountTestData.builder().build().buildAccountResponse();
+        //when
+        when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
+        when(mapper.merge(account, accountRequest)).thenReturn(account);
+        when(accountRepository.save(account)).thenReturn(account);
+        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
+
+        var actual = accountService.update(1L,accountRequest);
+        //then
+        assertEquals(expected, actual);
     }
 
     @Test
