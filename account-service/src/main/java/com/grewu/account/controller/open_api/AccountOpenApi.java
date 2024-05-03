@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = "User")
+@Tag(name = "Account")
 public interface AccountOpenApi {
     @Operation(
             method = "GET",
