@@ -116,7 +116,7 @@ class AccountServiceImplTest {
         when(accountRepository.save(account)).thenReturn(account);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
 
-        var actual = accountService.update(1L,accountRequest);
+        var actual = accountService.update(1L, accountRequest);
         //then
         assertEquals(expected, actual);
     }
@@ -129,8 +129,8 @@ class AccountServiceImplTest {
                 .buildAccountRequest();
         final var id = -1L;
         //when
-        var exception = assertThrows(NotFoundException.class, () -> accountService.update(id,accountRequest));
-        var actual = exception.getMessage();
+        final var exception = assertThrows(NotFoundException.class, () -> accountService.update(id, accountRequest));
+        final var actual = exception.getMessage();
         //then
         final var NULL_NOT_FOUND = "Object type of: by field: null not found.";
         assertThat(actual)

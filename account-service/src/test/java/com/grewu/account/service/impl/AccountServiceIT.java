@@ -1,6 +1,5 @@
 package com.grewu.account.service.impl;
 
-import com.grewu.account.data.response.AccountResponse;
 import com.grewu.account.exception.NotFoundException;
 import com.grewu.account.mapper.AccountMapper;
 import com.grewu.account.repository.AccountRepository;
@@ -10,22 +9,20 @@ import com.grewu.utils.IntegrationTest;
 import com.grewu.utils.PostgresqlTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+@SpringBootTest
 @IntegrationTest
 @Sql("classpath:sql/integration.sql")
 class AccountServiceIT extends PostgresqlTestContainer {
@@ -122,7 +119,7 @@ class AccountServiceIT extends PostgresqlTestContainer {
         when(repository.save(account)).thenReturn(account);
         when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
         //when
-        var actual = service.update(id,accountRequest);
+        var actual = service.update(id, accountRequest);
         //then
         assertEquals(expected, actual);
     }
