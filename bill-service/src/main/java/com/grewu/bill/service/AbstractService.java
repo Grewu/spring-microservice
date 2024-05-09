@@ -1,6 +1,4 @@
-package com.grewu.account.service;
-
-import java.util.List;
+package com.grewu.bill.service;
 
 import java.util.List;
 

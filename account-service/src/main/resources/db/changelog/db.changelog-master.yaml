@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: /db/changelog/changeset/creat-table-account.sql
+  - include:
+      file: /db/changelog/changeset/insert-data-account.sql

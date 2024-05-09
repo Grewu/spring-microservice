@@ -23,9 +23,11 @@ public class AccountTestData {
     private String phoneNumber = "phoneNumber";
     @Builder.Default
     private LocalDateTime creationDate = LocalDateTime.of(2024, 10, 4, 3, 2);
+    @Builder.Default
+    private List<Long> bills = List.of(1L);
 
     public Account buildAccount() {
-        return new Account(id, name, email, phoneNumber, creationDate);
+        return new Account(id, name, email, phoneNumber, creationDate,bills);
     }
 
     public AccountResponse buildAccountResponse() {

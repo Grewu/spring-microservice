@@ -1,15 +1,15 @@
-package com.grewu.account.service.impl;
+package com.grewu.bill.service.impl;
 
-import com.grewu.account.exception.NotFoundException;
-import com.grewu.account.mapper.AccountMapper;
-import com.grewu.account.repository.AccountRepository;
-import com.grewu.account.service.AccountService;
-import com.grewu.data.AccountTestData;
+
+import com.grewu.bill.exception.NotFoundException;
+import com.grewu.bill.mapper.BillMapper;
+import com.grewu.bill.repository.BillRepository;
+import com.grewu.bill.service.BillService;
+import com.grewu.data.BillTestData;
 import com.grewu.utils.IntegrationTest;
 import com.grewu.utils.PostgresqlTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
@@ -22,28 +22,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 @IntegrationTest
 @Sql("classpath:sql/integration.sql")
-class AccountServiceIT extends PostgresqlTestContainer {
+class BillServiceIT extends PostgresqlTestContainer {
 
     @Autowired
-    private AccountService service;
+    private BillService service;
 
     @MockBean
-    private AccountRepository repository;
+    private BillRepository repository;
     @MockBean
-    private AccountMapper mapper;
+    private BillMapper mapper;
 
 
     @Test
     void getByIdShouldReturnExpectedAccountResponse() {
         //given
         var id = 1L;
-        final var account = AccountTestData.builder().build().buildAccount();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
+        final var bill = BillTestData.builder().build().buildBill();
+        var expected = BillTestData.builder().build().buildBillResponse();
         //when
-        when(repository.findById(id)).thenReturn(Optional.of(account));
-        when(mapper.toAccountResponse(account)).thenReturn(expected);
+        when(repository.findById(id)).thenReturn(Optional.of(bill));
+        when(mapper.toBillResponse(bill)).thenReturn(expected);
 
         var actual = service.getById(id);
         //then
@@ -70,13 +71,13 @@ class AccountServiceIT extends PostgresqlTestContainer {
     void getAllShouldReturnListOfAccountResponse() {
         var size = 0;
         var page = 1;
-        final var account = AccountTestData.builder().build().buildAccount();
-        final var accountPage = AccountTestData.builder().build().buildAccountPage();
-        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-        var expected = AccountTestData.builder().build().buildListOfAccountResponse();
+        final var account = BillTestData.builder().build().buildBill();
+        final var accountPage = BillTestData.builder().build().buildBillPage();
+        final var accountResponse = BillTestData.builder().build().buildBillResponse();
+        var expected = BillTestData.builder().build().buildListOfBillResponse();
 
         when(repository.findAll(PageRequest.of(size, page))).thenReturn(accountPage);
-        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
+        when(mapper.toBillResponse(account)).thenReturn(accountResponse);
         //when
         var actual = service.getAll(size, page);
         //then
@@ -87,14 +88,14 @@ class AccountServiceIT extends PostgresqlTestContainer {
     @Test
     void createShouldReturnAccountResponse() {
         //given
-        var accountRequest = AccountTestData.builder().build().buildAccountRequest();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
-        var account = AccountTestData.builder().build().buildAccount();
-        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
+        var accountRequest = BillTestData.builder().build().buildBillRequest();
+        var expected = BillTestData.builder().build().buildBillResponse();
+        var account = BillTestData.builder().build().buildBill();
+        final var accountResponse = BillTestData.builder().build().buildBillResponse();
 
         //when
-        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
-        when(mapper.toAccount(accountRequest)).thenReturn(account);
+        when(mapper.toBillResponse(account)).thenReturn(accountResponse);
+        when(mapper.toBill(accountRequest)).thenReturn(account);
 
         var actual = service.create(accountRequest);
 
@@ -108,15 +109,15 @@ class AccountServiceIT extends PostgresqlTestContainer {
     @Test
     void updateShouldReturnAccountResponse() {
         //given
-        var accountRequest = AccountTestData.builder().build().buildAccountRequest();
-        var expected = AccountTestData.builder().build().buildAccountResponse();
-        final var accountResponse = AccountTestData.builder().build().buildAccountResponse();
-        final var account = AccountTestData.builder().build().buildAccount();
+        var accountRequest = BillTestData.builder().build().buildBillRequest();
+        var expected = BillTestData.builder().build().buildBillResponse();
+        final var accountResponse = BillTestData.builder().build().buildBillResponse();
+        final var account = BillTestData.builder().build().buildBill();
         final var id = 1L;
         when(repository.findById(1L)).thenReturn(Optional.of(account));
         when(mapper.merge(account, accountRequest)).thenReturn(account);
         when(repository.save(account)).thenReturn(account);
-        when(mapper.toAccountResponse(account)).thenReturn(accountResponse);
+        when(mapper.toBillResponse(account)).thenReturn(accountResponse);
         //when
         var actual = service.update(id, accountRequest);
         //then

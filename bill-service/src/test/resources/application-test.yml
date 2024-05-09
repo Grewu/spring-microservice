@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  datasource:
+    username: test
+    password: test
+  liquibase:
+    change-log: liguilbase/db.changelog-master-test.yml

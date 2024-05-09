@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/changeset/creat-table-bill.sql
+  - include:
+      file: /db/changelog/changeset/insert-data-bill.sql
