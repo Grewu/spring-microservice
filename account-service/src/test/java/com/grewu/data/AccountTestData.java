@@ -27,7 +27,7 @@ public class AccountTestData {
     private List<Long> bills = List.of(1L);
 
     public Account buildAccount() {
-        return new Account(id, name, email, phoneNumber, creationDate,bills);
+        return new Account(id, name, email, phoneNumber, creationDate);
     }
 
     public AccountResponse buildAccountResponse() {

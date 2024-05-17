@@ -1,9 +1,9 @@
 spring:
   cloud:
     config:
-      enabled: false
+      enabled: true
   profiles:
-    active: dev
+    active: bootstrap
 springdoc:
   api-docs:
     enabled: true

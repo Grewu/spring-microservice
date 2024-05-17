@@ -6,9 +6,6 @@ spring:
           search-locations: classpath:/services
   profiles:
     active: native
-  security:
-    user: user
-      password: admin
 
 server:
   port: 8001
