@@ -5,4 +5,5 @@ include 'deposit-service'
 include 'config-service'
 include 'registry'
 include 'logging-starter'
+include 'exception-handling-starter'
 

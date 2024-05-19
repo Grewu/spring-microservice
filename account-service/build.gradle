@@ -28,7 +28,7 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
     implementation "org.mapstruct:mapstruct:$mapstructVersion"
     implementation "org.liquibase:liquibase-core"
-    implementation 'org.example:logging-starter:1.0.0'
+    implementation 'org.example:exception-handling-starter:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
