@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id "io.freefair.lombok" version "8.6"
+}
+
+group 'org.example'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = project.name
+            version = version
+
+            from components.java
+        }
+    }
+}
+
+ext{
+    springBootVersion = "3.2.5"
+    useJUnitPlatformVersion = "5.8.1"
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${useJUnitPlatformVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${useJUnitPlatformVersion}"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named("build") {
+    finalizedBy('publishToMavenLocal')
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
+}
