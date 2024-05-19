@@ -6,6 +6,7 @@ import com.grewu.bill.service.BillService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.annotation.Logging;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.net.URI;
 import java.util.List;
 
 @Slf4j
+@Logging
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
