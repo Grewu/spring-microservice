@@ -37,8 +37,6 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0"
 //    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.testcontainers:postgresql:$testcontainersVersion"

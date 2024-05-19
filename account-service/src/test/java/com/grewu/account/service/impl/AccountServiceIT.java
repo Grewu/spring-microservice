@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 
 @IntegrationTest
 @Sql("classpath:sql/integration.sql")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false"})
 class AccountServiceIT extends PostgresqlTestContainer {
 
     @Autowired

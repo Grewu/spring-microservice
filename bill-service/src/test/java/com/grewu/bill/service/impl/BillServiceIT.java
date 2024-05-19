@@ -10,6 +10,7 @@ import com.grewu.utils.IntegrationTest;
 import com.grewu.utils.PostgresqlTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 @IntegrationTest
 @Sql("classpath:sql/integration.sql")
+@SpringBootTest(properties = {"spring.cloud.config.enabled=false"})
 class BillServiceIT extends PostgresqlTestContainer {
 
     @Autowired
